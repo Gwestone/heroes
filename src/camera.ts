@@ -10,6 +10,9 @@ export class Camera {
     getPosition() {
         return this.position.clone();
     }
+    getViewPort() {
+        return this.viewPort.clone();
+    }
     getRightCorner() {
         return this.position.clone()
             .addScaledVector(this.viewPort, -0.5);
@@ -60,8 +63,5 @@ export class Camera {
             return this.position.setY(32 * 100 - this.viewPort.getY() / 2);
 
         return this.position.setY(newPosY);
-    }
-    getViewPort() {
-        return this.viewPort;
     }
 }
