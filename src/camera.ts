@@ -1,6 +1,6 @@
 import {Vector} from "./vector.ts";
 
-class Camera {
+export class Camera {
     private position: Vector;
     private viewPort: Vector;
     constructor(x: number, y: number, width: number, height: number) {
@@ -36,5 +36,8 @@ class Camera {
         if (newPosY + this.viewPort.getY() / 2 > 100 * 32) return;
 
         return this.position.setY(newPosY);
+    }
+    getViewPort() {
+        return this.viewPort;
     }
 }
