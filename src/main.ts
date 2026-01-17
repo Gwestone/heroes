@@ -27,7 +27,6 @@ function main(){
     addEventListener("mousemove", (e) => {
         if (e.buttons !== MOUSE_BUTTONS.MIDDLE) return;
         camera.move(e.movementX, e.movementY);
-        console.log(camera.getPosition());
     });
 
     addEventListener("mouseup", (e) => {
@@ -48,13 +47,13 @@ function main(){
             ctx?.beginPath();
 
             for (let i = 0; i < 100; i++) {
-                ctx.moveTo(-camera.getViewPort().getX() / 2 + camera.getPosition().getX() + 32 * i, 0);
-                ctx.lineTo(-camera.getViewPort().getX() / 2 + camera.getPosition().getX() + 32 * i, camera.getViewPort().getY());
+                ctx.moveTo(32 * i - camera.getRightCorner().getX(), 0);
+                ctx.lineTo(32 * i - camera.getRightCorner().getX(), camera.getViewPort().getY());
             }
 
             for (let i = 0; i < 100; i++) {
-                ctx.moveTo(0, camera.getViewPort().getY() / 2 + camera.getPosition().getY() - i * 32);
-                ctx.lineTo(camera.getViewPort().getX(), camera.getViewPort().getY() / 2 + camera.getPosition().getY() -  i * 32);
+                ctx.moveTo(0, i * 32 - camera.getRightCorner().getY());
+                ctx.lineTo(camera.getViewPort().getX(), i * 32 - camera.getRightCorner().getY());
             }
 
             ctx.stroke();
