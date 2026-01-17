@@ -1,6 +1,7 @@
 import {Camera} from "../camera.ts";
 import {MOUSE_BUTTONS} from "../mouse.ts";
 import type {RenderLayer} from "./render-layer.ts";
+import type {Vector} from "../vector.ts";
 
 export class Renderer {
 
@@ -8,9 +9,11 @@ export class Renderer {
     private context!: CanvasRenderingContext2D;
     private camera!: Camera;
     private renderLayers: RenderLayer[] = [];
+    private worldDim: Vector;
 
-    constructor() {
+    constructor(worldDim: Vector) {
 
+        this.worldDim = worldDim;
         this.initCanvas();
         this.initCamera();
         this.initEvents();
@@ -33,7 +36,7 @@ export class Renderer {
     }
 
     private initCamera() {
-        this.camera = new Camera(window.innerWidth / 2, window.innerHeight / 2, window.innerWidth, window.innerHeight);
+        this.camera = new Camera(window.innerWidth / 2, window.innerHeight / 2, window.innerWidth, window.innerHeight, this.worldDim.getX(), this.worldDim.getY());
         this.canvas.width = this.camera.getViewPort().getX();
         this.canvas.height = this.camera.getViewPort().getY();
     }

@@ -28,9 +28,9 @@ export class Vector {
         this.y -= vector.y;
         return this;
     }
-    multiply(vector: Vector) {
-        this.x *= vector.x;
-        this.y *= vector.y;
+    multiply(scalar: number) {
+        this.x *= scalar;
+        this.y *= scalar;
         return this;
     }
     divide(scalar: number) {
