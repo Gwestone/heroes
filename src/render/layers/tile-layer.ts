@@ -7,9 +7,16 @@ export class TileLayer implements RenderLayer{
 
     private tiles: number[];
     private gridDim: Vector;
+    private imageTiles: CanvasImageSource[];
     constructor(tiles: Array<number>, gridDim: Vector) {
         this.tiles = tiles;
         this.gridDim = gridDim;
+
+        this.imageTiles = [];
+        this.imageTiles.push(document.getElementById("water") as CanvasImageSource);
+        this.imageTiles.push(document.getElementById("terrain-grass") as CanvasImageSource);
+        this.imageTiles.push(document.getElementById("terrain-rock") as CanvasImageSource);
+        this.imageTiles.push(document.getElementById("terrain-sand") as CanvasImageSource);
     }
 
     render(renderer: Renderer): void {
@@ -24,10 +31,14 @@ export class TileLayer implements RenderLayer{
 
         for (let y = startRow; y < endRow; y++) {
             for (let x = startCol; x < endCol; x++) {
+
                 const tileId = this.tiles[y * this.gridDim.getX() + x];
                 const def = TILES[tileId];
+                const image = this.imageTiles[tileId];
+
                 renderer.getContext().fillStyle = def.color;
-                renderer.getContext().fillRect(32 * x + offsetX, 32 * y + offsetY, 32, 32);
+                //renderer.getContext().fillRect(32 * x + offsetX, 32 * y + offsetY, 32, 32);
+                renderer.getContext().drawImage(image, 32 * x + offsetX, 32 * y + offsetY, 32, 32);
             }
         }
     }
