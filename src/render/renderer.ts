@@ -1,11 +1,13 @@
-import {Camera} from "./camera.ts";
-import {MOUSE_BUTTONS} from "./mouse.ts";
+import {Camera} from "../camera.ts";
+import {MOUSE_BUTTONS} from "../mouse.ts";
+import type {RenderLayer} from "./render-layer.ts";
 
 export class Renderer {
 
     private canvas!: HTMLCanvasElement;
     private context!: CanvasRenderingContext2D;
     private camera!: Camera;
+    private renderLayers: RenderLayer[] = [];
 
     constructor() {
 
@@ -54,27 +56,25 @@ export class Renderer {
 
     render(){
         this.clear();
-        this.renderDebugGrid();
-    }
-
-    private renderDebugGrid() {
-        this.context.beginPath();
-
-        for (let i = 0; i < 100; i++) {
-            this.context.moveTo(32 * i - this.camera.getRightCorner().getX(), 0);
-            this.context.lineTo(32 * i - this.camera.getRightCorner().getX(), this.camera.getViewPort().getY());
+        for(const layer of this.renderLayers){
+            layer.render(this);
         }
-
-        for (let i = 0; i < 100; i++) {
-            this.context.moveTo(0, i * 32 - this.camera.getRightCorner().getY());
-            this.context.lineTo(this.camera.getViewPort().getX(), i * 32 - this.camera.getRightCorner().getY());
-        }
-
-        this.context.stroke();
     }
 
     private clear() {
         const viewPort = this.camera.getViewPort();
         this.context.clearRect(0, 0, viewPort.getX(), viewPort.getY());
+    }
+
+    addRenderLayer(layer: RenderLayer): void {
+        this.renderLayers.push(layer);
+    }
+
+    getContext(): CanvasRenderingContext2D {
+        return this.context;
+    }
+
+    getCamera(): Camera{
+        return this.camera;
     }
 }
